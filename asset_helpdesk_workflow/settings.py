@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'employees',
     'helpdesk',
     'assets',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

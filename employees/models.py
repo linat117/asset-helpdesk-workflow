@@ -24,7 +24,7 @@ class Employee(models.Model):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     #position = models.CharField(choices= POSITION_CHOICES, max_length=20)
     position = models.CharField( max_length=200)
     role = models.CharField(choices=ROLE_CHOICES, max_length=100)
