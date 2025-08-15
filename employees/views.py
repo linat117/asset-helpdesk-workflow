@@ -3,6 +3,8 @@ from .models import Employee, Department
 from .serializers import EmployeeSerializer, DepartmentSerializer
 from django.views.generic import ListView, DetailView,CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
+
+#employee views
 class EmployeeListView(ListView):
     model = Employee
     template_name = 'employees/employee_list.html'
@@ -30,6 +32,7 @@ class EmployeeDeleteView(DeleteView):
     template_name = 'employees/employee_delete_confirm'
     success_url = reverse_lazy('employee-list')
 
+#department views
 class DepartmentListView(ListView):
     model = Employee
     template_name = 'departments/department_list.html'
@@ -56,11 +59,11 @@ class DepartmentDeleteView(DeleteView):
     model = Employee 
     template_name = 'departments/department_delete_confirm'
     success_url = reverse_lazy('department-list') 
-
+#employee viewset for drf
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-
+#employee viewset for drf
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer

@@ -1,3 +1,108 @@
-from django.shortcuts import render
+from  django.views.generic import ListView,  DetailView, DeleteView, UpdateView, CreateView
+from .models import Asset, Assignment, MaintenanceLog
+from django.urls import reverse_lazy
+from rest_framework import viewsets
+from .serializers import AssetSerializer, AssignmentSerializer, MaintenanceLogSerializer
+# views for Asset model
+class AssetListView(ListView):
+    model = Asset
+    template_name = 'assets/asset_list.html'
+    context_object_name = 'assets'
 
-# Create your views here.
+class AssetDetailView(DetailView):
+    model = Asset
+    template_name = 'assets/asset_detail.html'
+    context_object_name = 'asset'
+
+class AssetCreateView(CreateView):
+    model = Asset
+    fields = '__all__'
+    template_name = 'assets/asset_form.html'
+    success_url = reverse_lazy('asset-list')
+
+class AssetUpdateView(UpdateView):
+    model = Asset
+    fields = '__all__'
+    template_name = 'assets/asset_form.html'
+    success_url = reverse_lazy('asset-list')
+
+class AssetDeleteView(DeleteView):
+    model = Asset 
+    template_name = 'assets/asset_delete_confirm'
+    success_url = reverse_lazy('asset-list')
+
+#views for assignment model
+class AssignmentListView(ListView):
+    model = Assignment
+    template_name = 'assignments/assignment_list.html'
+    context_object_name = 'assignments'
+
+class AssignmentDetailView(DetailView):
+    model = Assignment
+    template_name = 'assignments/assignment_detail.html'
+    context_object_name = 'assignment'
+
+class AssignmentCreateView(CreateView):
+    model = Assignment
+    fields = '__all__'
+    template_name = 'assignments/assignment_form.html'
+    success_url = reverse_lazy('assignment-list')
+
+class AssignmentUpdateView(UpdateView):
+    model = Assignment
+    fields = '__all__'
+    template_name = 'assignments/assignment_form.html'
+    success_url = reverse_lazy('assignment-list')
+
+class AssignmentDeleteView(DeleteView):
+    model = Assignment 
+    template_name = 'assignments/assignment_delete_confirm'
+    success_url = reverse_lazy('assignment-list')
+
+#views for maintenance log models
+class MaintenanceLogListView(ListView):
+    model = MaintenanceLog
+    template_name = 'maintenancelogs/maintenancelog_list.html'
+    context_object_name = 'maintenancelogs'
+
+class MaintenanceLogDetailView(DetailView):
+    model = MaintenanceLog
+    template_name = 'maintenancelogs/maintenancelog_detail.html'
+    context_object_name = 'maintenancelog'
+
+class MaintenanceLogCreateView(CreateView):
+    model =MaintenanceLog
+    fields = '__all__'
+    template_name = 'maintenancelogs/maintenancelog_form.html'
+    success_url = reverse_lazy('maintenancelog-list')
+
+class MaintenanceLogUpdateView(UpdateView):
+    model = MaintenanceLog
+    fields = '__all__'
+    template_name = 'maintenancelogs/maintenancelog_form.html'
+    success_url = reverse_lazy('maintenancelog-list')
+
+class MaintenanceLogDeleteView(DeleteView):
+    model = MaintenanceLog
+    template_name = 'maintenancelogs/maintenancelog_delete_confirm'
+    success_url = reverse_lazy('maintenancelog-list')
+
+
+#Asset views set for drf
+
+class AssetViewSet(viewsets.ModelViewSet):
+    queryset = Asset.objects.all()
+    serializer_class = AssetSerializer
+
+#Maintenancelog view set for drf
+class MaintenanceLogViewSet(viewsets.ModelViewSet):
+    queryset = MaintenanceLog.objects.all()
+    serializer_class = MaintenanceLogSerializer
+  
+#Assignments view set for drf
+class AssignmentViewSet(viewsets.ModelViewSet):
+    queryset = Assignment.objects.all()
+    serializer_class = AssignmentSerializer
+  
+
+
