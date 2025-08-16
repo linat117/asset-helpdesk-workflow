@@ -106,4 +106,39 @@ class TicketUpdateLogDeleteView(DeleteView):
 class TicketUpdateLogViewSet(viewsets.ModelViewSet):
     queryset = TicketUpdateLog.objects.all()
     serializer_class = TicketUpdateLogSerializer 
-    
+
+
+#view for ticket comment 
+class TicketCommentListView(ListView):
+    model  = TicketComment 
+    template_name = 'ticketcomments/ticketcomment_list.html'
+    context_object_name = 'ticketcomments'
+
+class TicketCommentDetailView(DetailView):
+    model = TicketComment 
+    template_name = 'ticketcomments/ticketcomment_detail.html'
+    context_object_name = 'ticketcomment'
+
+class TicketCommentCreateView(CreateView):
+    model = TicketComment 
+    template_name = 'ticketcomments/ticketcomment_form.html'
+    fields = '__all__'
+    success_url = 'ticketcomment-list'
+
+class TicketCommentUpdateView(UpdateView):
+    model = TicketComment 
+    template_name = 'ticketcomments/ticketcomment_form.html'
+    fields = '__all__'
+    success_url = 'ticketcomment-list'
+
+class TicketCommentDeleteView(DeleteView):
+    model = TicketComment 
+    fields = '__all__'
+    template_name = 'ticketcomments/ticketcomment_confirm_delete.html'
+    success_url = 'ticketcomment-list'
+
+#viewset for Ticket comment serializer
+
+class TicketCommentViewSet(viewsets.ModelViewSet):
+    queryset = TicketComment.objects.all() 
+    serializer_class = TicketCommentSerializer
