@@ -2,7 +2,7 @@ from  django.views.generic import ListView,  DetailView, DeleteView, UpdateView,
 from .models import Asset, Assignment, MaintenanceLog
 from django.urls import reverse_lazy
 from rest_framework import viewsets
-from .serializers import AssetSerializer, AssignmentSerializer, MaintenanceLogSerializer
+from .serializers import AssetSerializer, AssignmentSerializer , MaintenanceLogSerializer
 # views for Asset model
 class AssetListView(ListView):
     model = Asset

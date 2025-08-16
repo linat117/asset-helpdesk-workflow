@@ -26,7 +26,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     #position = models.CharField(choices= POSITION_CHOICES, max_length=20)
-    position = models.CharField( max_length=200)
+    position = models.CharField( max_length=191)
     role = models.CharField(choices=ROLE_CHOICES, max_length=100)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='employees')
 

@@ -7,10 +7,10 @@ from .views import (AssetCreateView, AssetDeleteView,AssetDetailView, AssetListV
     
 urlpatterns = [
     path('assets/', AssetListView.as_view(), name= 'asset-list' ),
-    path('assets/create/', AssetCreateView.as_view(), name= 'asset-add'),
-    path('assets/<int:pk>/update/', AssetUpdateView.as_view(), name= 'asste-update'),
-    path('assets/<int:pk>/delete/', AssetDeleteView.as_view(), name= 'asset-delete'),
-    path('assets/<int:pk>/', AssetDetailView.as_view(), name='asset-detail'),
+    path('asset/create/', AssetCreateView.as_view(), name= 'asset-add'),
+    path('asset/<int:pk>/update/', AssetUpdateView.as_view(), name= 'asste-update'),
+    path('asset/<int:pk>/delete/', AssetDeleteView.as_view(), name= 'asset-delete'),
+    path('asset/<int:pk>/', AssetDetailView.as_view(), name='asset-detail'),
 
     path('assignments/', AssignmentListView.as_view(), name= 'assignment-list' ),
     path('assignment/create/', AssignmentCreateView.as_view(), name= 'assignment-add'),
