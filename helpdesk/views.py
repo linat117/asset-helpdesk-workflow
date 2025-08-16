@@ -100,3 +100,10 @@ class TicketUpdateLogDeleteView(DeleteView):
     model = TicketUpdateLog
     template_name = 'ticketupdatelogs/ticketupdatelogs_delete_confirm.html'
     success_url = 'ticketupdatelog-list'
+
+#viewset for ticketupdatelog serializer for drf
+
+class TicketUpdateLogViewSet(viewsets.ModelViewSet):
+    queryset = TicketUpdateLog.objects.all()
+    serializer_class = TicketUpdateLogSerializer 
+    
