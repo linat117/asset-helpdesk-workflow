@@ -67,3 +67,8 @@ class TicketDeleteView(DeleteView):
     template_name = 'tickets/ticket_confirm_delete.html'
     success_url = 'ticket-list'
 
+#viewset for ticketserializer for DRF
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+
