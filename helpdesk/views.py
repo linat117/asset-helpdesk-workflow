@@ -37,3 +37,33 @@ class TicketCategoryDeleteView(DeleteView):
 class TicketCategoryViewSet(viewsets.ModelViewSet):
     queryset = TicketCategory.objects.all() 
     serializer_class = TicketCategorySerializer
+
+
+#view for Ticket Model 
+class TicketListView(ListView):
+    model = Ticket
+    template_name = 'tickets/ticket_list.html'
+    context_object_name ='tickets'
+
+class TicketDetailView(DetailView):
+    model = Ticket 
+    template_name = 'tickets/ticket_detail.html'
+    context_object_name ='ticket'
+
+class TicketCreateView(CreateView):
+    model = Ticket
+    fields ='__all__'
+    template_name = 'tickets/ticket_form.html'
+    success_url = 'ticket-list'
+
+class TicketUpdateView(UpdateView):
+    model = Ticket
+    fields = '__all__'
+    template_name = 'tickets/ticket_form.html'
+    success_url = 'ticket-list'
+
+class TicketDeleteView(DeleteView):
+    model = Ticket
+    template_name = 'tickets/ticket_confirm_delete.html'
+    success_url = 'ticket-list'
+
