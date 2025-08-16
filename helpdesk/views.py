@@ -72,3 +72,31 @@ class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
+
+#view for ticket update logs
+class TicketUpdateLogListView(ListView):
+    model = TicketUpdateLog 
+    template_name = 'ticketupdatelogs/ticketupdatelog_list.html'
+    context_object_name = 'ticketupdatelogs'
+
+class TicketUpdateLogDetailView(DetailView):
+    model = TicketUpdateLog
+    template_name = 'ticketupdatelogs/ticketupdatelogs_detail.html'
+    context_object_name = 'ticketupdatelog'
+
+class TicketUpdateLogCreateView(CreateView):
+    model = TicketUpdateLog
+    fields = '__all__'
+    template_name = 'ticketupdatelogs/ticketupdatelogs_form.html'
+    success_url = 'ticketupdatelog-list'
+
+class TicketUpateLogUpdateView(UpdateView):
+    model = TicketUpdateLog
+    fields = '__all__'
+    template_name = 'ticketupdatelogs/ticketupdatelogs_form.html'
+    success_url = 'ticketupdatelog-list'
+
+class TicketUpdateLogDeleteView(DeleteView):
+    model = TicketUpdateLog
+    template_name = 'ticketupdatelogs/ticketupdatelogs_delete_confirm.html'
+    success_url = 'ticketupdatelog-list'
