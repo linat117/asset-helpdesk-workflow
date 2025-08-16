@@ -90,7 +90,7 @@ class TicketUpdateLogCreateView(CreateView):
     template_name = 'ticketupdatelogs/ticketupdatelogs_form.html'
     success_url = 'ticketupdatelog-list'
 
-class TicketUpateLogUpdateView(UpdateView):
+class TicketUpdateLogUpdateView(UpdateView):
     model = TicketUpdateLog
     fields = '__all__'
     template_name = 'ticketupdatelogs/ticketupdatelogs_form.html'
