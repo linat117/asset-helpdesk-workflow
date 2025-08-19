@@ -3,6 +3,9 @@ from .models import Employee, Department
 from .serializers import EmployeeSerializer, DepartmentSerializer
 from django.views.generic import ListView, DetailView,CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from accounts.permissions import IsAdmin
 
 #employee views
 class EmployeeListView(ListView):
@@ -48,6 +51,7 @@ class DepartmentCreateView(CreateView):
     fields = '__all__'
     template_name = 'departments/department_form.html'
     success_url = reverse_lazy('department-list')
+    
 
 class DepartmentUpdateView(UpdateView):
     model = Employee
@@ -67,3 +71,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]
+
+
+
+class DepartmentCreateView(generics.CreateAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]
