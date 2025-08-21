@@ -2,6 +2,8 @@ from  django.views.generic import ListView,  DetailView, DeleteView, UpdateView,
 from .models import Asset, Assignment, MaintenanceLog
 from django.urls import reverse_lazy
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from accounts.permissions import AssetPermission, AssignmentPermission, MaintenanceLogPermission
 from .serializers import AssetSerializer, AssignmentSerializer , MaintenanceLogSerializer
 # views for Asset model
 class AssetListView(ListView):
@@ -93,16 +95,20 @@ class MaintenanceLogDeleteView(DeleteView):
 class AssetViewSet(viewsets.ModelViewSet):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
+    permission_classes = [IsAuthenticated, AssetPermission]
+
 
 #Maintenancelog view set for drf
 class MaintenanceLogViewSet(viewsets.ModelViewSet):
     queryset = MaintenanceLog.objects.all()
     serializer_class = MaintenanceLogSerializer
-  
+    permission_classes = [IsAuthenticated, MaintenanceLogPermission]
+
 #Assignments view set for drf
 class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
-  
+    permission_classes = [IsAuthenticated, AssignmentPermission]
+
 
 

@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView,CreateView, DeleteView, Up
 from django.urls import reverse_lazy
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import IsAdmin
+from accounts.permissions import EmployeePermission, DepartmentPermission
 
 #employee views
 class EmployeeListView(ListView):
@@ -67,15 +67,9 @@ class DepartmentDeleteView(DeleteView):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    permission_classes = [IsAuthenticated, EmployeePermission]
 #employee viewset for drf
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    permission_classes = [IsAuthenticated, IsAdmin]
-
-
-
-class DepartmentCreateView(generics.CreateAPIView):
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
-    permission_classes = [IsAuthenticated, IsAdmin]
+    permission_classes = [IsAuthenticated, DepartmentPermission]

@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from .serializers import TicketCategorySerializer, TicketCommentSerializer, TicketSerializer, TicketUpdateLogSerializer
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Ticket, TicketCategory, TicketComment, TicketUpdateLog
+from rest_framework.permissions import IsAuthenticated
+from accounts.permissions import IsAdmin
 #ticket category crud views
 class TicketCategoryListView(ListView):
     model = TicketCategory
@@ -31,12 +33,6 @@ class TicketCategoryDeleteView(DeleteView):
     model = TicketCategory
     template_name = 'ticketcategories/ticketcategory_delete_confirm.html'
     success_url = reverse_lazy('ticket-category-list')
-
-# viewset for  the serializer for drf 
-
-class TicketCategoryViewSet(viewsets.ModelViewSet):
-    queryset = TicketCategory.objects.all() 
-    serializer_class = TicketCategorySerializer
 
 
 #view for Ticket Model 
@@ -67,12 +63,6 @@ class TicketDeleteView(DeleteView):
     template_name = 'tickets/ticket_confirm_delete.html'
     success_url = 'ticket-list'
 
-#viewset for ticketserializer for DRF
-class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
-
-
 #view for ticket update logs
 class TicketUpdateLogListView(ListView):
     model = TicketUpdateLog 
@@ -100,13 +90,6 @@ class TicketUpdateLogDeleteView(DeleteView):
     model = TicketUpdateLog
     template_name = 'ticketupdatelogs/ticketupdatelogs_delete_confirm.html'
     success_url = 'ticketupdatelog-list'
-
-#viewset for ticketupdatelog serializer for drf
-
-class TicketUpdateLogViewSet(viewsets.ModelViewSet):
-    queryset = TicketUpdateLog.objects.all()
-    serializer_class = TicketUpdateLogSerializer 
-
 
 #view for ticket comment 
 class TicketCommentListView(ListView):
@@ -137,8 +120,33 @@ class TicketCommentDeleteView(DeleteView):
     template_name = 'ticketcomments/ticketcomment_confirm_delete.html'
     success_url = 'ticketcomment-list'
 
+
+# viewset for  the serializer for drf 
+
+class TicketCategoryViewSet(viewsets.ModelViewSet):
+    queryset = TicketCategory.objects.all() 
+    serializer_class = TicketCategorySerializer
+    permission_classes = [IsAuthenticated, IsAdmin]  # Admin only
+
+
+
+#viewset for ticketserializer for DRF
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]  # Admin only
+
+#viewset for ticketupdatelog serializer for drf
+
+class TicketUpdateLogViewSet(viewsets.ModelViewSet):
+    queryset = TicketUpdateLog.objects.all()
+    serializer_class = TicketUpdateLogSerializer 
+    permission_classes = [IsAuthenticated, IsAdmin]  # Admin only
+
+
 #viewset for Ticket comment serializer
 
 class TicketCommentViewSet(viewsets.ModelViewSet):
     queryset = TicketComment.objects.all() 
     serializer_class = TicketCommentSerializer
+    permission_classes = [IsAuthenticated]  # Admin only
