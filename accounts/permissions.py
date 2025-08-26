@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-
 class IsITHead(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and request.user.role == 'it_head'
@@ -23,7 +22,7 @@ class AssetPermission(BasePermission):
         if not request.user.is_authenticated:
             return False
         
-        if request.user.role == 'Admin':
+        if request.user.role == 'admin':
             return True 
         elif request.user.role == 'IT Staff':
             
@@ -39,7 +38,7 @@ class MaintenanceLogPermission(BasePermission):
         if not request.user.is_authenticated:
             return False
         
-        if request.user.role in ['Admin', 'IT Staff']:
+        if request.user.role in ['admin', 'it_staff']:
             return True  
         else:
             return request.method in SAFE_METHODS 
@@ -51,12 +50,11 @@ class AssignmentPermission(BasePermission):
         if not request.user.is_authenticated:
             return False
         
-        if request.user.role in ['Admin', 'IT Staff']:
+        if request.user.role in ['admin', 'IT Staff']:
             return True  
         else:
             return request.method in SAFE_METHODS 
 
-from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 # Employee permissions
 class EmployeePermission(BasePermission):
@@ -65,15 +63,15 @@ class EmployeePermission(BasePermission):
             return False
         
         # Admin full CRUD
-        if request.user.role == 'Admin':
+        if request.user.role == 'admin':
             return True
         
         # IT Staff can read and update employees
-        elif request.user.role == 'IT Staff':
+        elif request.user.role == 'it_staff':
             return request.method in SAFE_METHODS + ('PUT', 'PATCH')
         
         # Employees can only view their own details
-        elif request.user.role == 'Employee':
+        elif request.user.role == 'employee':
             return request.method in SAFE_METHODS
         
         return False
@@ -86,7 +84,7 @@ class DepartmentPermission(BasePermission):
             return False
         
         # Admin full CRUD
-        if request.user.role == 'Admin':
+        if request.user.role == 'admin':
             return True
         
         # IT Head can also manage departments
@@ -95,4 +93,19 @@ class DepartmentPermission(BasePermission):
         
         # Others can only read department data
         else:
+            return request.method in SAFE_METHODS
+
+#ticket permissions
+class TicketPermission(BasePermission):
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+        
+        if request.user.role == 'admin':
+            return True 
+        elif request.user.role == 'it_staff':
+            
+            return request.method in SAFE_METHODS + ('PUT', 'PATCH')
+        else:
+            
             return request.method in SAFE_METHODS

@@ -4,20 +4,20 @@ from .models import Ticket, TicketCategory, TicketComment, TicketUpdateLog
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = '__all__'
+        fields = ['id','title','description','category','status','priority','reported_by','assigned_to','linked_asset','created_at','updated_at']
 
-class TicketCategorySerializer(serializers.ModelField):
+class TicketCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = TicketCategory
-        fields = '__all__'
+        fields = ['id','name','description']
 
 class TicketCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TicketComment
-        fields = '__all__'
+        fields = ['id','ticket','comment_by','comment_text','comment_time']
 
 class TicketUpdateLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = TicketUpdateLog
-        fields = '__all__'
+        fields = ['id','ticket','updated_by','update_note','update_time']
         

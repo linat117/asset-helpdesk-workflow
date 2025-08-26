@@ -5,7 +5,7 @@ from .serializers import TicketCategorySerializer, TicketCommentSerializer, Tick
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Ticket, TicketCategory, TicketComment, TicketUpdateLog
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import IsAdmin
+from accounts.permissions import IsAdmin, TicketPermission
 #ticket category crud views
 class TicketCategoryListView(ListView):
     model = TicketCategory
@@ -126,7 +126,7 @@ class TicketCommentDeleteView(DeleteView):
 class TicketCategoryViewSet(viewsets.ModelViewSet):
     queryset = TicketCategory.objects.all() 
     serializer_class = TicketCategorySerializer
-    permission_classes = [IsAuthenticated, IsAdmin]  # Admin only
+    permission_classes = [IsAuthenticated, TicketPermission]  # Admin only
 
 
 
@@ -134,14 +134,14 @@ class TicketCategoryViewSet(viewsets.ModelViewSet):
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
-    permission_classes = [IsAuthenticated, IsAdmin]  # Admin only
+    permission_classes = [IsAuthenticated, TicketPermission]  # Admin only
 
 #viewset for ticketupdatelog serializer for drf
 
 class TicketUpdateLogViewSet(viewsets.ModelViewSet):
     queryset = TicketUpdateLog.objects.all()
     serializer_class = TicketUpdateLogSerializer 
-    permission_classes = [IsAuthenticated, IsAdmin]  # Admin only
+    permission_classes = [IsAuthenticated, TicketPermission]  # Admin only
 
 
 #viewset for Ticket comment serializer

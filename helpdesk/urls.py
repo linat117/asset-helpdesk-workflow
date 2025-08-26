@@ -13,6 +13,7 @@ router.register(r'ticketcomments',TicketCommentViewSet)
 router.register(r'ticketupdatelogs', TicketUpdateLogViewSet)
 router.register(r'ticketcategories', TicketCategoryViewSet)
 urlpatterns = router.urls
+"""
 urlpatterns = [
     #ticket urls
     path('tickets/', TicketListView.as_view(), name= 'ticket-list' ),
@@ -39,5 +40,5 @@ urlpatterns = [
     path('ticketcomment/<int:pk>/delete/', TicketCommentDeleteView.as_view(), name= 'ticketcomment-delete'),
     path('ticketcomment/<int:pk>/', TicketCommentDetailView.as_view(), name='ticketcomment-detail'),
 
-
 ]
+"""

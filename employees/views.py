@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView,CreateView, DeleteView, Up
 from django.urls import reverse_lazy
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import EmployeePermission, DepartmentPermission
+from accounts.permissions import EmployeePermission, DepartmentPermission,IsAdmin
 
 #employee views
 class EmployeeListView(ListView):
