@@ -3,7 +3,7 @@ from .models import Asset, Assignment, MaintenanceLog
 from django.urls import reverse_lazy
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import AssetPermission, AssignmentPermission, MaintenanceLogPermission
+from accounts.permissions import AssetPermission, AssignmentPermission, MaintenanceLogPermission,IsAdminOnly, IsAdminOrITStaff
 from .serializers import AssetSerializer, AssignmentSerializer , MaintenanceLogSerializer
 # views for Asset model
 class AssetListView(ListView):
@@ -30,7 +30,7 @@ class AssetUpdateView(UpdateView):
 
 class AssetDeleteView(DeleteView):
     model = Asset 
-    template_name = 'assets/asset_delete_confirm'
+    template_name = 'assets/asset_delete_confirm.html'
     success_url = reverse_lazy('asset-list')
 
 #views for assignment model
@@ -58,7 +58,7 @@ class AssignmentUpdateView(UpdateView):
 
 class AssignmentDeleteView(DeleteView):
     model = Assignment 
-    template_name = 'assignments/assignment_delete_confirm'
+    template_name = 'assignments/assignment_delete_confirm.html'
     success_url = reverse_lazy('assignment-list')
 
 #views for maintenance log models
@@ -86,29 +86,40 @@ class MaintenanceLogUpdateView(UpdateView):
 
 class MaintenanceLogDeleteView(DeleteView):
     model = MaintenanceLog
-    template_name = 'maintenancelogs/maintenancelog_delete_confirm'
+    template_name = 'maintenancelogs/maintenancelog_delete_confirm.html'
     success_url = reverse_lazy('maintenancelog-list')
 
 
 #Asset views set for drf
 
 class AssetViewSet(viewsets.ModelViewSet):
-    queryset = Asset.objects.all()
+    #queryset = Asset.objects.all()
     serializer_class = AssetSerializer
-    permission_classes = [IsAuthenticated, AssetPermission]
+    permission_classes = [IsAuthenticated]
 
-
+    def get_queryset(self):
+        user = self.request.user
+        
+        if user.role == 'admin':
+            return Asset.objects.all()
+        elif user.role == 'it_staff':
+            return Asset.objects.all()
+        elif user.role == 'employee':
+            
+             return Asset.objects.filter(assignments__employee__user=user)
+        
+        return Asset.objects.none()
 #Maintenancelog view set for drf
 class MaintenanceLogViewSet(viewsets.ModelViewSet):
     queryset = MaintenanceLog.objects.all()
     serializer_class = MaintenanceLogSerializer
-    permission_classes = [IsAuthenticated, MaintenanceLogPermission]
+    permission_classes = [IsAuthenticated, IsAdminOrITStaff]
 
 #Assignments view set for drf
 class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
-    permission_classes = [IsAuthenticated, AssignmentPermission]
+    permission_classes = [IsAuthenticated, IsAdminOrITStaff]
 
 
 

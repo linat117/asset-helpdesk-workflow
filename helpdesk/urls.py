@@ -8,10 +8,10 @@ from django.urls import path
 
 #url for DRF 
 router = DefaultRouter() 
-router.register(r'tickets', TicketViewSet)
-router.register(r'ticketcomments',TicketCommentViewSet)
-router.register(r'ticketupdatelogs', TicketUpdateLogViewSet)
-router.register(r'ticketcategories', TicketCategoryViewSet)
+router.register(r'tickets', TicketViewSet, basename = 'ticket')
+router.register(r'ticketcomments',TicketCommentViewSet, basename = 'ticketcomment')
+router.register(r'ticketupdatelogs', TicketUpdateLogViewSet, basename = 'ticketupdatelog')
+router.register(r'ticketcategories', TicketCategoryViewSet, basename = 'ticketcategory')
 urlpatterns = router.urls
 """
 urlpatterns = [

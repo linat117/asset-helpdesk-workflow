@@ -29,6 +29,6 @@ class Employee(models.Model):
     position = models.CharField( max_length=191)
     role = models.CharField(choices=ROLE_CHOICES, max_length=100)
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='employees')
-
+    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, related_name='employee', null=True, blank=True)
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.role}) - {self.position} from {self.department} department"

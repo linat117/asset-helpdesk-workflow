@@ -27,8 +27,8 @@ urlpatterns = [
 ]
 #url for DRF
 router = DefaultRouter()
-router.register(r'assets', AssetViewSet)
-router.register(r'assignments', AssignmentViewSet)
-router.register(r'maintenancelogs', MaintenanceLogViewSet)
+router.register(r'assets', AssetViewSet, basename = 'asset')
+router.register(r'assignments', AssignmentViewSet, basename = 'assignment')
+router.register(r'maintenancelogs', MaintenanceLogViewSet, basename = 'maintenancelog')
 
 urlpatterns = router.urls

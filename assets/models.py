@@ -29,9 +29,17 @@ class Assignment(models.Model):
         return f"{self.asset} assigned to {self.employee}"
 
 class MaintenanceLog(models.Model):
-    asset= models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='maintenancelogs')
+    asset= models.ForeignKey(Asset, on_delete=models.CASCADE, related_name='maintenancelogs')
+    maintenance_type = models.CharField(max_length=50, choices=[
+    ('preventive', 'Preventive'),
+    ('corrective', 'Corrective'),
+    ('emergency', 'Emergency')
+  ])
     description = models.TextField()
     date = models.DateField()
+    maintenance_date = models.DateField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    technician = models.CharField(max_length=100)
     performed_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='maintenancelogs')
 
     def __str__(self):

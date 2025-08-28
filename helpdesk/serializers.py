@@ -14,7 +14,7 @@ class TicketCategorySerializer(serializers.ModelSerializer):
 class TicketCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TicketComment
-        fields = ['id','ticket','comment_by','comment_text','comment_time']
+        fields = ['id','ticket','commenter','comment_text','comment_time']
 
 class TicketUpdateLogSerializer(serializers.ModelSerializer):
     class Meta:

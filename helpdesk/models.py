@@ -31,7 +31,7 @@ class Ticket(models.Model):
     status = models.CharField(choices = TICKET_STATUS, max_length = 100)
     priority = models.CharField(choices= TICKET_PRIORITY, max_length=100)
     reported_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='tickets')
-    assigned_to = models.CharField(max_length=100, null=True)
+    assigned_to = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='assigned_tickets', null=True)
     linked_asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name = 'tickets')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -51,7 +51,7 @@ class TicketUpdateLog(models.Model):
 
 class TicketComment(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name='ticketcomments')
-    comment_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='ticketcomments')
+    commenter = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='ticketcomments')
     comment_text = models.TextField()
     comment_time = models.DateTimeField(auto_now_add=True)
 

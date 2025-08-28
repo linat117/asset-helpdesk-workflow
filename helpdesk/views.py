@@ -5,7 +5,7 @@ from .serializers import TicketCategorySerializer, TicketCommentSerializer, Tick
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Ticket, TicketCategory, TicketComment, TicketUpdateLog
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import IsAdmin, TicketPermission
+from accounts.permissions import IsAdminOrITStaff
 #ticket category crud views
 class TicketCategoryListView(ListView):
     model = TicketCategory
@@ -56,12 +56,12 @@ class TicketUpdateView(UpdateView):
     model = Ticket
     fields = '__all__'
     template_name = 'tickets/ticket_form.html'
-    success_url = 'ticket-list'
+    success_url = reverse_lazy('ticket-list')
 
 class TicketDeleteView(DeleteView):
     model = Ticket
     template_name = 'tickets/ticket_confirm_delete.html'
-    success_url = 'ticket-list'
+    success_url = reverse_lazy('ticket-list')
 
 #view for ticket update logs
 class TicketUpdateLogListView(ListView):
@@ -78,18 +78,18 @@ class TicketUpdateLogCreateView(CreateView):
     model = TicketUpdateLog
     fields = '__all__'
     template_name = 'ticketupdatelogs/ticketupdatelogs_form.html'
-    success_url = 'ticketupdatelog-list'
+    success_url = reverse_lazy('ticketupdatelog-list')
 
 class TicketUpdateLogUpdateView(UpdateView):
     model = TicketUpdateLog
     fields = '__all__'
     template_name = 'ticketupdatelogs/ticketupdatelogs_form.html'
-    success_url = 'ticketupdatelog-list'
+    success_url = reverse_lazy('ticketupdatelog-list')
 
 class TicketUpdateLogDeleteView(DeleteView):
     model = TicketUpdateLog
     template_name = 'ticketupdatelogs/ticketupdatelogs_delete_confirm.html'
-    success_url = 'ticketupdatelog-list'
+    success_url = reverse_lazy('ticketupdatelog-list')
 
 #view for ticket comment 
 class TicketCommentListView(ListView):
@@ -106,19 +106,19 @@ class TicketCommentCreateView(CreateView):
     model = TicketComment 
     template_name = 'ticketcomments/ticketcomment_form.html'
     fields = '__all__'
-    success_url = 'ticketcomment-list'
+    success_url = reverse_lazy('ticketcomment-list')
 
 class TicketCommentUpdateView(UpdateView):
     model = TicketComment 
     template_name = 'ticketcomments/ticketcomment_form.html'
     fields = '__all__'
-    success_url = 'ticketcomment-list'
+    success_url = reverse_lazy('ticketcomment-list')
 
 class TicketCommentDeleteView(DeleteView):
     model = TicketComment 
     fields = '__all__'
     template_name = 'ticketcomments/ticketcomment_confirm_delete.html'
-    success_url = 'ticketcomment-list'
+    success_url = reverse_lazy('ticketcomment-list')
 
 
 # viewset for  the serializer for drf 
@@ -126,22 +126,38 @@ class TicketCommentDeleteView(DeleteView):
 class TicketCategoryViewSet(viewsets.ModelViewSet):
     queryset = TicketCategory.objects.all() 
     serializer_class = TicketCategorySerializer
-    permission_classes = [IsAuthenticated, TicketPermission]  # Admin only
+    permission_classes = [IsAuthenticated, IsAdminOrITStaff]  # Admin only
 
 
 
 #viewset for ticketserializer for DRF
 class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.all()
+    #queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
-    permission_classes = [IsAuthenticated, TicketPermission]  # Admin only
-
+    permission_classes = [IsAuthenticated]  # Admin only
+    
+    def get_queryset(self):
+        user = self.request.user
+        
+        if user.role == 'admin':
+            return Ticket.objects.all()
+        elif user.role == 'it_staff':
+            return Ticket.objects.all()
+        elif user.role == 'employee':
+            # Employees can only see tickets they reported
+            try:
+                return Ticket.objects.filter(reported_by__user=user)
+            except:
+                # Fallback if no user relationship
+                return Ticket.objects.filter(reported_by__email=user.email)
+        
+        return Ticket.objects.none()
 #viewset for ticketupdatelog serializer for drf
 
 class TicketUpdateLogViewSet(viewsets.ModelViewSet):
     queryset = TicketUpdateLog.objects.all()
     serializer_class = TicketUpdateLogSerializer 
-    permission_classes = [IsAuthenticated, TicketPermission]  # Admin only
+    permission_classes = [IsAuthenticated]  # Admin only
 
 
 #viewset for Ticket comment serializer
