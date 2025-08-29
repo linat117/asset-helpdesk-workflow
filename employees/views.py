@@ -70,7 +70,17 @@ class DepartmentDeleteView(DeleteView):
 class EmployeeViewSet(viewsets.ModelViewSet):
     #queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    permission_classes = [IsAuthenticated, IsAdminOnly]
+    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            permission_classes = [IsAuthenticated, IsAdminOnly]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         user = self.request.user
@@ -78,16 +88,38 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         if user.role == 'admin':
             return Employee.objects.all()
         elif user.role == 'it_staff':
-            return Employee.objects.all()
+            # IT Staff should NOT see all employees - they should only see their own
+            try:
+                return Employee.objects.filter(user=user)
+            except:
+                return Employee.objects.filter(email=user.email)
+        elif user.role == 'it_head':
+            # IT Head should NOT see all employees - they should only see their own
+            try:
+                return Employee.objects.filter(user=user)
+            except:
+                return Employee.objects.filter(email=user.email)
         elif user.role == 'employee':
             # Employees can only see their own record
             try:
                 return Employee.objects.filter(user=user)
             except:
-                # Fallback if no user relationship
                 return Employee.objects.filter(email=user.email)
         
         return Employee.objects.none()
+    
+    def list(self, request, *args, **kwargs):
+        # For employees, return single record instead of list
+        if request.user.role == 'employee':
+            queryset = self.get_queryset()
+            if queryset.exists():
+                serializer = self.get_serializer(queryset.first())
+                return Response(serializer.data)
+            else:
+                return Response({"error": "Employee record not found"}, status=404)
+        
+        return super().list(request, *args, **kwargs)
+        
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
@@ -140,4 +172,13 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    permission_classes = [IsAuthenticated, IsAdminOnly]
+    permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            permission_classes = [IsAuthenticated, IsAdminOnly]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]

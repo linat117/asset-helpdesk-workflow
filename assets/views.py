@@ -96,6 +96,16 @@ class AssetViewSet(viewsets.ModelViewSet):
     #queryset = Asset.objects.all()
     serializer_class = AssetSerializer
     permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            permission_classes = [IsAuthenticated, IsAdminOrITStaff]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
 
     def get_queryset(self):
         user = self.request.user
@@ -119,7 +129,42 @@ class MaintenanceLogViewSet(viewsets.ModelViewSet):
 class AssignmentViewSet(viewsets.ModelViewSet):
     queryset = Assignment.objects.all()
     serializer_class = AssignmentSerializer
-    permission_classes = [IsAuthenticated, IsAdminOrITStaff]
+    permission_classes = [IsAuthenticated, AssignmentPermission]
+    
+   
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            permission_classes = [IsAuthenticated, IsAdminOnly]  # Only admin can create/update/delete
+        else:
+            permission_classes = [IsAuthenticated]  # All authenticated users can read
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        user = self.request.user
+        
+        if user.role == 'admin':
+            return Assignment.objects.all()
+        elif user.role == 'it_head':
+            return Assignment.objects.all()
+        elif user.role == 'it_staff':
+            # IT Staff can only see assignments assigned to themselves
+            try:
+                return Assignment.objects.filter(employee__user=user)
+            except:
+                # Fallback if no user relationship
+                return Assignment.objects.filter(employee__email=user.email)
+        elif user.role == 'employee':
+            # Employees can only see assignments assigned to themselves
+            try:
+                return Assignment.objects.filter(employee__user=user)
+            except:
+                return Assignment.objects.filter(employee__email=user.email)
+        
+        return Assignment.objects.none()
+
 
 
 

@@ -141,8 +141,14 @@ class TicketViewSet(viewsets.ModelViewSet):
         
         if user.role == 'admin':
             return Ticket.objects.all()
-        elif user.role == 'it_staff':
+        elif user.role == 'it_head':
             return Ticket.objects.all()
+        elif user.role == 'it_staff':
+            try:
+                return Ticket.objects.filter(assigned_to__user=user)
+            except:
+            # Fallback if no user relationship
+                return Ticket.objects.filter(assigned_to__email=user.email)
         elif user.role == 'employee':
             # Employees can only see tickets they reported
             try:
