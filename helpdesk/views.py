@@ -126,10 +126,10 @@ class TicketCommentDeleteView(DeleteView):
 class TicketCategoryViewSet(viewsets.ModelViewSet):
     queryset = TicketCategory.objects.all() 
     serializer_class = TicketCategorySerializer
-    permission_classes = [IsAuthenticated, IsAdminOrITStaff]  # Admin only
+    permission_classes = [IsAuthenticated]  # Admin only
 
-
-
+    
+    
 #viewset for ticketserializer for DRF
 class TicketViewSet(viewsets.ModelViewSet):
     #queryset = Ticket.objects.all()
@@ -169,6 +169,34 @@ class TicketUpdateLogViewSet(viewsets.ModelViewSet):
 #viewset for Ticket comment serializer
 
 class TicketCommentViewSet(viewsets.ModelViewSet):
-    queryset = TicketComment.objects.all() 
+    #queryset = TicketComment.objects.all() 
     serializer_class = TicketCommentSerializer
     permission_classes = [IsAuthenticated]  # Admin only
+
+    def get_queryset(self):
+        user = self.request.user
+        
+        if user.role == 'admin':
+            return TicketComment.objects.all()
+        elif user.role == 'it_head':
+            return TicketComment.objects.all()
+            try:
+                return TicketComment.objects.filter(ticket__assigned_to__user=user)
+            except:
+                # Fallback if no user relationship
+                return TicketComment.objects.filter(ticket__assigned_to__email=user.email)
+        elif user.role == 'employee':
+            # Employees can only see comments on tickets they reported or are assigned to
+            try:
+                from django.db import models
+                return TicketComment.objects.filter(
+                    models.Q(ticket__reported_by__user=user) |
+                    models.Q(ticket__assigned_to__user=user)
+                )
+            except:
+                # Fallback if no user relationship
+                return TicketComment.objects.filter(
+                    models.Q(ticket__reported_by__email=user.email) |
+                    models.Q(ticket__assigned_to__email=user.email)
+                )
+        return TicketComment.objects.none()
