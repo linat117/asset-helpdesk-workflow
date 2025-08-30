@@ -4,17 +4,6 @@ A comprehensive Django-based asset management and helpdesk system designed to st
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Installation & Setup](#installation--setup)
-- [Database Configuration](#database-configuration)
-- [API Documentation](#api-documentation)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## 🎯 Overview
 
@@ -107,7 +96,7 @@ asset-helpdesk-workflow/
 ### Step 1: Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/linat117/asset-helpdesk-workflow.git
 cd asset-helpdesk-workflow
 ```
 
@@ -298,66 +287,7 @@ The API uses Django REST Framework with JWT authentication. All endpoints return
 | `PATCH` | `/api/ticketupdatelogs/{id}/` | Partially update ticket update log | Yes |
 | `DELETE` | `/api/ticketupdatelogs/{id}/` | Delete ticket update log | Yes |
 
-### 🔑 Authentication Headers
 
-For authenticated endpoints, include the JWT token in the Authorization header:
-
-```
-Authorization: Bearer <your_jwt_token>
-```
-
-### 📝 Request/Response Examples
-
-#### Login Request
-```bash
-POST /auth/token/
-Content-Type: application/json
-
-{
-    "username": "your_username",
-    "password": "your_password"
-}
-```
-
-#### Login Response
-```json
-{
-    "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
-    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
-}
-```
-
-#### Create Asset Request
-```bash
-POST /api/assets/
-Authorization: Bearer <your_jwt_token>
-Content-Type: application/json
-
-{
-    "name": "Dell Latitude 5520",
-    "category": "Laptop",
-    "serial_number": "DL5520-12345",
-    "purchase_date": "2023-01-15",
-    "status": "active"
-}
-```
-
-#### Create Ticket Request
-```bash
-POST /api/tickets/
-Authorization: Bearer <your_jwt_token>
-Content-Type: application/json
-
-{
-    "title": "Printer not working",
-    "description": "The office printer is showing error code E-04",
-    "category": 1,
-    "priority": "high",
-    "linked_asset": 1
-}
-```
-
-## 💻 Usage
 
 ### Getting Started
 
@@ -417,9 +347,6 @@ The project includes comprehensive testing documentation:
 - Update documentation for any API changes
 - Ensure all tests pass before submitting PR
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 📞 Support
 
