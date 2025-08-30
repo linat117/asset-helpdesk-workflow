@@ -53,11 +53,11 @@ class AssignmentPermission(BasePermission):
         if not request.user.is_authenticated:
             return False
         
-        if request.user.role in ['admin', 'it_staff']:
+        if request.user.role == 'admin':
             return True  
-        else:
+        elif request.user.role in ['it_head','it_staff', 'employee']:
             return request.method in SAFE_METHODS 
-
+        return False
 
 # Employee permissions
 class EmployeePermission(BasePermission):
