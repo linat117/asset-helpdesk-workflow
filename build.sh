@@ -21,6 +21,7 @@ python -c "import django; print(f'Django version: {django.get_version()}')"
 python -c "import whitenoise; print('Whitenoise installed successfully')"
 
 echo "=== Django Setup ==="
+export DJANGO_SETTINGS_MODULE=asset_helpdesk_workflow.settings_production
 python manage.py check
 python manage.py collectstatic --no-input
 python manage.py migrate
