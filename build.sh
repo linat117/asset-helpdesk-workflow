@@ -10,6 +10,7 @@ echo "Pip version: $(pip --version)"
 echo "=== Installing Packages Individually ==="
 pip install Django==5.2.5
 pip install djangorestframework==3.16.1
+pip install djangorestframework-simplejwt==5.3.0
 pip install gunicorn==21.2.0
 pip install whitenoise==6.6.0
 pip install dj-database-url==2.1.0
