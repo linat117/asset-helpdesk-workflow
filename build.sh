@@ -2,29 +2,17 @@
 # exit on error
 set -o errexit
 
+echo "=== Build Debug Info ==="
 echo "Current directory: $(pwd)"
+echo "Python version: $(python --version)"
+echo "Pip version: $(pip --version)"
 echo "Directory contents:"
 ls -la
 
-# Check if we're in the right directory
-if [ -f "manage.py" ]; then
-    echo "Found manage.py in current directory"
-elif [ -d "asset-helpdesk-workflow" ]; then
-    echo "Moving to asset-helpdesk-workflow directory"
-    cd asset-helpdesk-workflow
-    if [ ! -f "manage.py" ]; then
-        echo "Error: manage.py not found in asset-helpdesk-workflow"
-        exit 1
-    fi
-else
-    echo "Error: Cannot find manage.py or asset-helpdesk-workflow directory"
-    exit 1
-fi
-
-echo "Installing requirements..."
+echo "=== Installing Requirements ==="
 pip install -r requirements.txt
 
-echo "Running Django commands..."
-python manage.py check
+echo "=== Django Setup ==="
+python manage.py check --list
 python manage.py collectstatic --no-input
 python manage.py migrate
