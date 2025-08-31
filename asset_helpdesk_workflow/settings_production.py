@@ -12,7 +12,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-e2q8#n#+h1#rc_sqmt4oi
 DEBUG = False
 
 # Update this with your actual Render URL once deployed
-ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://asset-helpdesk-workflow-api.onrender.com/', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -148,7 +148,7 @@ CSRF_COOKIE_SECURE = True
 
 # Update CSRF trusted origins with your actual Render URL
 CSRF_TRUSTED_ORIGINS = [
-    'https://your-app-name.onrender.com',
+    'https://asset-helpdesk-workflow-api.onrender.com/',
     'http://localhost:8000',
     'http://127.0.0.1:8000'
 ]
