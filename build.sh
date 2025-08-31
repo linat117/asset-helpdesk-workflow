@@ -20,6 +20,7 @@ pip install python-decouple==3.8
 echo "=== Checking Django Installation ==="
 python -c "import django; print(f'Django version: {django.get_version()}')"
 python -c "import whitenoise; print('Whitenoise installed successfully')"
+python -c "import rest_framework_simplejwt; print('SimpleJWT installed successfully')"
 
 echo "=== Django Setup ==="
 # Set Django settings explicitly for build
