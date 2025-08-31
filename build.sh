@@ -21,7 +21,10 @@ python -c "import django; print(f'Django version: {django.get_version()}')"
 python -c "import whitenoise; print('Whitenoise installed successfully')"
 
 echo "=== Django Setup ==="
-# Use default settings for build process (no environment variables needed)
+# Set Django settings explicitly for build
+export DJANGO_SETTINGS_MODULE=asset_helpdesk_workflow.settings
+
+echo "Django settings module: $DJANGO_SETTINGS_MODULE"
 python manage.py check
 python manage.py collectstatic --no-input
 python manage.py migrate
