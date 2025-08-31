@@ -4,6 +4,26 @@ A comprehensive Django-based asset management and helpdesk system designed to st
 
 ## 📋 Table of Contents
 
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Project Structure](#-project-structure)
+- [Installation & Setup](#-installation--setup)
+- [Quick Start Guide](#-quick-start-guide)
+- [User Documentation](#-user-documentation)
+- [API Documentation](#-api-documentation)
+- [Testing](#-testing)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+## 📚 User Documentation
+
+**📖 [Complete User Guide](USER_GUIDE.md)** - Comprehensive guide for all users including:
+- Getting started instructions
+- Role-based feature explanations
+- Step-by-step task guides
+- Troubleshooting tips
+- Common workflows for different user types
 
 ## 🎯 Overview
 
@@ -147,6 +167,51 @@ python manage.py runserver
 ```
 
 The application will be available at `http://localhost:8000`
+
+## 🚀 Quick Start Guide
+
+### For New Users
+
+1. **Access the System**
+   - Open your browser and go to `http://localhost:8000`
+   - You'll see the login page
+
+2. **First Login**
+   - Use the credentials provided by your administrator
+   - If you don't have credentials, contact your system administrator
+
+3. **Explore Your Dashboard**
+   - After login, you'll see your personalized dashboard
+   - The dashboard shows information relevant to your role
+
+4. **Get Started with Common Tasks**
+   - **Employees**: Submit support tickets, view assigned assets
+   - **IT Staff**: Handle tickets, perform maintenance, assign assets
+   - **IT Heads**: Manage team, oversee assets, generate reports
+   - **Admins**: Manage users, configure system, full oversight
+
+### For Administrators
+
+1. **Initial Setup**
+   - Create departments using the admin panel
+   - Add employees with appropriate roles
+   - Set up initial asset categories
+
+2. **User Management**
+   - Create user accounts for all employees
+   - Assign appropriate roles and permissions
+   - Set up department structure
+
+3. **System Configuration**
+   - Configure ticket categories
+   - Set up maintenance types
+   - Establish asset assignment policies
+
+### 📖 Need Help?
+
+- **📚 [Complete User Guide](USER_GUIDE.md)** - Detailed instructions for all features
+- **🔧 [API Documentation](#-api-documentation)** - Technical API reference
+- **📋 [Testing Guide](Comprehensive_Test_Checklist.md)** - Testing procedures
 
 ## 🗄 Database Configuration
 
