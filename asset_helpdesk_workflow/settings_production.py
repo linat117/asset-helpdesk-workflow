@@ -12,7 +12,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-e2q8#n#+h1#rc_sqmt4oi
 DEBUG = False
 
 # Update this with your actual Render URL once deployed
-ALLOWED_HOSTS = ['https://asset-helpdesk-workflow-api.onrender.com/', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -60,14 +60,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'asset_helpdesk_workflow.wsgi.application'
 
-# Database configuration for Render PostgreSQL
+# Database configuration - Use SQLite for build, PostgreSQL for runtime
 import dj_database_url
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='sqlite:///db.sqlite3'),
-        conn_max_age=600
-    )
-}
+
+# Check if we're in build mode (no DATABASE_URL) or runtime mode
+database_url = config('DATABASE_URL', default=None)
+if database_url:
+    # Runtime mode - use PostgreSQL
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=database_url,
+            conn_max_age=600
+        )
+    }
+else:
+    # Build mode - use SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -149,7 +162,7 @@ CSRF_COOKIE_SECURE = True
 
 # Update CSRF trusted origins with your actual Render URL
 CSRF_TRUSTED_ORIGINS = [
-    'https://asset-helpdesk-workflow-api.onrender.com/',
+    'https://your-app-name.onrender.com',
     'http://localhost:8000',
     'http://127.0.0.1:8000'
 ]
