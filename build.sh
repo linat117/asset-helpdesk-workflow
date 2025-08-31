@@ -25,10 +25,35 @@ python -c "import whitenoise; print('Whitenoise installed successfully')"
 python -c "import rest_framework_simplejwt; print('SimpleJWT installed successfully')"
 
 echo "=== Django Setup ==="
-# Set Django settings explicitly for build
-export DJANGO_SETTINGS_MODULE=asset_helpdesk_workflow.settings
+# Force the settings module directly
+export DJANGO_SETTINGS_MODULE=asset_helpdesk_workflow.settings_production
 
 echo "Django settings module: $DJANGO_SETTINGS_MODULE"
-python manage.py check
-python manage.py collectstatic --no-input
-python manage.py migrate
+
+# Run Django commands with explicit settings
+python -c "
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'asset_helpdesk_workflow.settings_production')
+django.setup()
+from django.core.management import execute_from_command_line
+execute_from_command_line(['manage.py', 'check'])
+"
+
+python -c "
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'asset_helpdesk_workflow.settings_production')
+django.setup()
+from django.core.management import execute_from_command_line
+execute_from_command_line(['manage.py', 'collectstatic', '--no-input'])
+"
+
+python -c "
+import os
+import django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'asset_helpdesk_workflow.settings_production')
+django.setup()
+from django.core.management import execute_from_command_line
+execute_from_command_line(['manage.py', 'migrate'])
+"
