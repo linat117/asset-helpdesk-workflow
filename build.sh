@@ -8,8 +8,10 @@ echo "Python version: $(python --version)"
 echo "Pip version: $(pip --version)"
 
 echo "=== Installing Packages Individually ==="
+pip install setuptools wheel
 pip install Django==5.2.5
 pip install djangorestframework==3.16.1
+pip install PyJWT==2.10.1
 pip install djangorestframework-simplejwt==5.3.0
 pip install gunicorn==21.2.0
 pip install whitenoise==6.6.0
