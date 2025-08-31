@@ -122,9 +122,9 @@ Keep these sample data structures ready for testing:
 **Employee:**
 ```json
 {
-  "first_name": "John",
-  "last_name": "Doe",
-  "email": "john.doe@company.com",
+  "first_name": "Employee",
+  "last_name": "One",
+  "email": "emp.one@company.com",
   "position": "Software Developer",
   "role": "employee",
   "department": 1
@@ -216,9 +216,9 @@ Keep these sample data structures ready for testing:
 - **Body**:
 ```json
 {
-  "first_name": "Jane",
-  "last_name": "Smith",
-  "email": "jane.smith@company.com",
+  "first_name": "staff",
+  "last_name": "one",
+  "email": "one.staff@company.com",
   "position": "IT Technician",
   "role": "it_staff",
   "department": 1
@@ -600,5 +600,5 @@ Keep these sample data structures ready for testing:
 
 *This API testing guide is designed for developers and testers using Postman to verify the Asset Helpdesk Workflow system functionality.*
 
-**Last Updated**: [Current Date]
+**Last Updated**: 31-08-2025
 **Version**: 1.0
